@@ -47,7 +47,11 @@ class AzureBlobStorageFileService extends AbstractFileService {
 
         const blockBlobClient = containerClient.getBlockBlobClient(filename)
 
-        await blockBlobClient.uploadStream(fs.createReadStream(file.path));
+        await blockBlobClient.uploadStream(fs.createReadStream(file.path), undefined, undefined, {
+            blobHTTPHeaders: {
+                blobContentType: file.mimetype
+            }
+        });
 
         return { url: blockBlobClient.url, key: filename };
     }
@@ -61,8 +65,12 @@ class AzureBlobStorageFileService extends AbstractFileService {
   
         const blockBlobClient = containerClient.getBlockBlobClient(filename)
   
-        await blockBlobClient.uploadStream(fs.createReadStream(file.path));
-  
+        await blockBlobClient.uploadStream(fs.createReadStream(file.path), undefined, undefined, {
+            blobHTTPHeaders: {
+                blobContentType: file.mimetype
+            }
+        });
+
         return { url: blockBlobClient.url, key: filename };
     }
 
